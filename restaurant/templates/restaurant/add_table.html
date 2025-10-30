@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Table</title>
+</head>
+<body>
+    <h2>Add Table</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Table</button>
+    </form>
+
+    <a href="{% url 'table_list' %}">Back to Table List</a>
+</body>
+</html>

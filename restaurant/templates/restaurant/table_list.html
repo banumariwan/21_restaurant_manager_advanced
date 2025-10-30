@@ -1,0 +1,22 @@
+{% extends 'restaurant/base.html' %}
+
+{% block title %}Table List{% endblock %}
+
+{% block content %}
+<h2>Table List</h2>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search here...">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+{% for table in tables %}
+    <li>
+        {{ table.number }} - ({{ table.seats }} seats)
+        <a href="{% url 'update_table' table.id %}">Update</a>
+        <a href="{% url 'delete_table' table.id %}">Delete</a>
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}

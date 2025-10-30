@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Restaurant Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h2 {
+            margin-top: 40px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .actions a {
+            margin-right: 5px;
+        }
+
+        .top-links {
+            margin-bottom: 20px;
+        }
+
+        .top-links a {
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Restaurant Dashboard</h1>
+
+    <div class="top-links">
+        <a href="{% url 'add_table' %}">Add Table</a>
+        <a href="{% url 'add_menu_item' %}">Add Menu Item</a>
+        <a href="{% url 'add_order' %}">Add Order</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </div>
+
+    <!-- Tables Section -->
+    <h2>Tables</h2>
+    <table>
+        <tr>
+            <th>Number</th>
+            <th>Seats</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        {% for table in tables %}
+        <tr>
+            <td>{{ table.number }}</td>
+            <td>{{ table.seats }}</td>
+            <td>{{ table.status }}</td>
+            <td class="actions">
+                <a href="{% url 'update_table' table.id %}">Edit</a>
+                <a href="{% url 'delete_table' table.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Menu Section -->
+    <h2>Menu Items</h2>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+        {% for item in menu_items %}
+        <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>${{ item.price }}</td>
+            <td>{{ item.available }}</td>
+            <td class="actions">
+                <a href="{% url 'update_menu_item' item.id %}">Edit</a>
+                <a href="{% url 'delete_menu_item' item.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Orders Section -->
+    <h2>Orders</h2>
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Table</th>
+            <th>Items</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Created By</th>
+            <th>Actions</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.table.number }}</td>
+            <td>
+                {% for item in order.items.all %}
+                    {{ item.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <td>${{ order.total_price }}</td>
+            <td>{{ order.status }}</td>
+            <td>{{ order.created_by.username }}</td>
+            <td class="actions">
+                <a href="{% url 'update_order' order.id %}">Edit</a>
+                <a href="{% url 'delete_order' order.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

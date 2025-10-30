@@ -1,0 +1,21 @@
+<h1>Menu Items</h1>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search menu items">
+    <button type="submit">Search</button>
+</form>
+
+<a href="{% url 'add_menu_item' %}">Add New Item</a> |
+<a href="{% url 'logout' %}">Logout</a>
+
+<ul>
+{% for item in menu_items %}
+    <li>
+        {{ item.name }} - ${{ item.price }}
+        <a href="{% url 'update_menu_item' item.id %}">Edit</a>
+        <a href="{% url 'delete_menu_item' item.id %}">Delete</a>
+    </li>
+{% empty %}
+    <p>No menu items found.</p>
+{% endfor %}
+</ul>

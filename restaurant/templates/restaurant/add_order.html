@@ -1,0 +1,33 @@
+{% extends 'restaurant/base.html' %}
+
+{% block title %}Add Order{% endblock %}
+
+{% block content %}
+<h2>Add Order</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Table Selection -->
+    <p>
+        <label for="id_table">Table:</label>
+        {{ form.table }}
+    </p>
+
+    <!-- Items Selection -->
+    <p>
+        <label for="id_items">Menu Items:</label>
+        {{ form.items }}
+    </p>
+
+    <!-- Status Selection -->
+    <p>
+        <label for="id_status">Status:</label>
+        {{ form.status }}
+    </p>
+
+    <button type="submit">Add Order</button>
+</form>
+
+<a href="{% url 'order_list' %}">Back to Orders</a>
+{% endblock %}

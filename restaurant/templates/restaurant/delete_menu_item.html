@@ -1,0 +1,7 @@
+<h1>Delete Menu_item</h1>
+<p>Are you sure you want to delete Table {{ menu.item }}?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Delete</button>
+</form>
+<a href="{% url 'menu_list' %}">Cancel</a>

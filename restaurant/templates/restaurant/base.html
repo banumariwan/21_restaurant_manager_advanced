@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Restaurant Manager{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .actions a {
+            margin-right: 5px;
+            color: #007BFF;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{% block header %}Restaurant Manager{% endblock %}</h1>
+            <nav>
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'table_list' %}">Tables</a>
+                <a href="{% url 'menu_list' %}">Menu</a>
+                <a href="{% url 'order_list' %}">Orders</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </nav>
+        </header>
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
