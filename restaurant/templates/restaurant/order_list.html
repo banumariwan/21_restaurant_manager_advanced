@@ -1,24 +1,63 @@
-<h1>Orders</h1>
+{% extends 'restaurant/base.html' %}
 
-<form method="get">
-    <input type="text" name="q" placeholder="Search orders by ID">
-    <button type="submit">Search</button>
-</form>
+{% block title %}Orders{% endblock %}
 
-<a href="{% url 'add_order' %}">Add New Order</a> |
-<a href="{% url 'logout' %}">Logout</a>
+{% block content %}
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Orders</h2>
+        <a href="{% url 'add_order' %}" class="btn btn-primary btn-sm">+ Add New Order</a>
+    </div>
 
-<ul>
-{% for order in orders %}
-    <li>
-        <strong>Order #{{ order.id }}</strong> -
-        Table: {{ order.table.number }} |
-        Item: {{ order.item.name }} |
-        Status: {{ order.status }}
-        <a href="{% url 'update_order' order.id %}">Edit</a>
-        <a href="{% url 'delete_order' order.id %}">Delete</a>
-    </li>
-{% empty %}
-    <p>No orders found.</p>
-{% endfor %}
-</ul>
+    <!-- Search Form -->
+    <form method="get" class="d-flex mb-3">
+        <input type="text" name="q" class="form-control me-2" placeholder="Search orders by ID..." value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </form>
+
+    <!-- Orders Table -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Table</th>
+                        <th>Item</th>
+                        <th>Status</th>
+                        <th>Created By</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.table.number }}</td>
+                        <td>{{ order.item.name }}</td>
+                        <td>
+                            {% if order.status == 'Completed' %}
+                                <span class="badge bg-success">{{ order.status }}</span>
+                            {% elif order.status == 'Pending' %}
+                                <span class="badge bg-warning text-dark">{{ order.status }}</span>
+                            {% else %}
+                                <span class="badge bg-secondary">{{ order.status }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ order.created_by.username }}</td>
+                        <td>
+                            <a href="{% url 'update_order' order.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a href="{% url 'delete_order' order.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-3">No orders found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,20 +3,49 @@
 {% block title %}Table List{% endblock %}
 
 {% block content %}
-<h2>Table List</h2>
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Table List</h2>
+        <a href="{% url 'add_table' %}" class="btn btn-primary btn-sm">+ Add New Table</a>
+    </div>
 
-<form method="get">
-    <input type="text" name="q" placeholder="Search here...">
-    <button type="submit">Search</button>
-</form>
+    <!-- Search form -->
+    <form method="get" class="d-flex mb-3">
+        <input type="text" name="q" class="form-control me-2" placeholder="Search by table number..." value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-outline-secondary">Search</button>
+    </form>
 
-<ul>
-{% for table in tables %}
-    <li>
-        {{ table.number }} - ({{ table.seats }} seats)
-        <a href="{% url 'update_table' table.id %}">Update</a>
-        <a href="{% url 'delete_table' table.id %}">Delete</a>
-    </li>
-{% endfor %}
-</ul>
+    <!-- Table list -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Table Number</th>
+                        <th>Seats</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for table in tables %}
+                    <tr>
+                        <td>{{ table.number }}</td>
+                        <td>{{ table.seats }}</td>
+                        <td>{{ table.status }}</td>
+                        <td>
+                            <a href="{% url 'update_table' table.id %}" class="btn btn-sm btn-outline-primary">Update</a>
+                            <a href="{% url 'delete_table' table.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">No tables found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

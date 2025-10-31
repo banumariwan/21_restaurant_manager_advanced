@@ -3,31 +3,30 @@
 {% block title %}Add Order{% endblock %}
 
 {% block content %}
-<h2>Add Order</h2>
+<div class="container my-4">
+    <h2 class="mb-4">Add Order</h2>
 
-<form method="post">
-    {% csrf_token %}
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
 
-    <!-- Table Selection -->
-    <p>
-        <label for="id_table">Table:</label>
-        {{ form.table }}
-    </p>
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="text-danger small">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
 
-    <!-- Items Selection -->
-    <p>
-        <label for="id_items">Menu Items:</label>
-        {{ form.items }}
-    </p>
+        <button type="submit" class="btn btn-primary">Add Order</button>
+    </form>
 
-    <!-- Status Selection -->
-    <p>
-        <label for="id_status">Status:</label>
-        {{ form.status }}
-    </p>
-
-    <button type="submit">Add Order</button>
-</form>
-
-<a href="{% url 'order_list' %}">Back to Orders</a>
+    <div class="mt-3">
+        <a href="{% url 'order_list' %}" class="btn btn-outline-secondary btn-sm">Back to Orders</a>
+    </div>
+</div>
 {% endblock %}
